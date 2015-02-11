@@ -103,20 +103,23 @@
 		x 		: 0,
 		y 		: 0,
 		z 		: 0,
+		translationX : 0,
+		translationY : 0,
+		translationZ : 0,
 		scaling : 1
 	  };
    // YOUR FUNCTION THAT GETS CALLED EACH ANIMATION FRAME
 
 	var translateX = function(newX){
-		cubeProperties.x = newX;
+		cubeProperties.translationX = newX;
 	}
 	
 	var translateY = function(newY){
-		cubeProperties.y = newY;
+		cubeProperties.translationY = newY;
 	}
 	
 	var translateZ = function(newZ){
-		cubeProperties.z = newZ;
+		cubeProperties.translationZ = newZ;
 	}
 	
 	var scale = function(newScale){
@@ -158,13 +161,13 @@
 	  translateZ(parseInt(document.getElementById('zTrans').value));
 	  scale(parseFloat(document.getElementById('scale').value));
 	  
-	  var phi = 0; //x rotation
+	  var phi = parseInt(document.getElementById('hRot').value); //x rotation
 	  var gamma = 0; //y rotation
 	  var theta = 0; //z rotation
 	  
-      var x = cubeProperties.x;
-	  var y = cubeProperties.y;
-	  var z = cubeProperties.z;
+      var x = cubeProperties.x + cubeProperties.translationX;
+	  var y = cubeProperties.y + cubeProperties.translationY;
+	  var z = cubeProperties.z + cubeProperties.translationZ;
 	  
 	  var scaling = cubeProperties.scaling;
       var matrix = [ 1*scaling,0*scaling,0*scaling,0*scaling,
