@@ -106,6 +106,9 @@
 		translationX : 0,
 		translationY : 0,
 		translationZ : 0,
+		phi : 0,
+		gamma : 0,
+		theta : 0,
 		scaling : 1
 	  };
    // YOUR FUNCTION THAT GETS CALLED EACH ANIMATION FRAME
@@ -122,11 +125,25 @@
 		cubeProperties.translationZ = newZ;
 	}
 	
+	var rotatePhi = function(newPhi){
+		cubeProperties.phi = newPhi;
+	}
+	
+	var rotateGamma = function(newGamma){
+		cubeProperties.gamma = newGamma;
+	}
+	
+	var rotateTheta = function(newTheta){
+		cubeProperties.theta = newTheta;
+	}
+	
 	var scale = function(newScale){
 		cubeProperties.scaling = newScale;
 	}
 	
-	
+	var radiansToDegrees = function(angle){
+		return angle * (Math.PI/180);
+	}
    
    function animate() {
 
@@ -161,19 +178,26 @@
 	  translateZ(parseInt(document.getElementById('zTrans').value));
 	  scale(parseFloat(document.getElementById('scale').value));
 	  
-	  var phi = parseInt(document.getElementById('hRot').value); //x rotation
-	  var gamma = 0; //y rotation
-	  var theta = 0; //z rotation
+	  rotatePhi(radiansToDegrees(parseInt(document.getElementById('hRot').value))); //x rotation
+	  rotateGamma(radiansToDegrees(parseInt(document.getElementById('pRot').value))); //y rotation
+	  rotateTheta(radiansToDegrees(parseInt(document.getElementById('rRot').value))); //z rotation
+	  
+	  
+	  var phi = cubeProperties.phi; //x rotation
+	  var gamma = cubeProperties.gamma; //y rotation
+	  var theta = cubeProperties.theta; //z rotation
 	  
       var x = cubeProperties.x + cubeProperties.translationX;
 	  var y = cubeProperties.y + cubeProperties.translationY;
 	  var z = cubeProperties.z + cubeProperties.translationZ;
 	  
 	  var scaling = cubeProperties.scaling;
-      var matrix = [ 1*scaling,0*scaling,0*scaling,0*scaling,
-					 0*scaling,1*scaling,0*scaling,0*scaling,
-					 0*scaling,0*scaling,1*scaling,0*scaling,
-					 x*scaling,y*scaling,z*scaling,1*scaling ];
+	  
+	  //implementation of cos and sin
+      var matrix = [ Math.cos(theta)*Math.cos(gamma)*scaling,	-Math.sin(theta)*scaling,				Math.sin(gamma)*scaling,				0*scaling,
+					 Math.sin(theta)*scaling,					Math.cos(theta)*Math.cos(phi)*scaling,	-Math.sin(phi)*scaling,					0*scaling,
+					 -Math.sin(gamma)*scaling,					Math.sin(phi)*scaling,					Math.cos(gamma)*Math.cos(phi)*scaling,	0*scaling,
+					 x*scaling,									y*scaling,								z*scaling,								1*scaling ];
 
       //var x = document.getElementById('xTrans').value;
       //var y = document.getElementById('yTrans').value;
